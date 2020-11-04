@@ -1,0 +1,78 @@
+@startuml
+
+class MasterMind{
+    + {static} main()
+    + void play()
+}
+
+class Game {
+    - int ATTEMPTS_NUMBER=10
+    - SecretCombination secretCombination
+    - ArrayList<Result> results;
+    + play()
+    - String inputCombination()
+    - boolean repeatedColor(String input)
+    - void PrintResults(boolean displaySecretCombination)
+    - Result createResult(String input)
+}
+
+class Result {
+    - Combination combination
+    - HashMap<Peg, Integer> pegs
+    + void setPeg(Peg peg, int valor)
+    + int getPeg(Peg peg)
+    + String toString()
+}
+
+class Combination {
+    # {static} int COMBINATION_NUMBER=4
+    # Colors[] colors
+    + String toString()
+ }
+
+class SecretCombination {
+    + SecretCombination getRandomCombination(),
+    + boolean isSecretCombination(Result result)
+    - void calculatePeg(Result result, Colors[] aux, Peg color)
+}
+
+class ProposedCombination {
+    + void createProposedCombination(String inputs)
+    
+}
+
+class Console{
+}
+
+enum Colors{
+    BLUE 'b'
+    GREEN 'g'
+    CYAN 'c'
+    RED 'r'
+    PURPLE 'p'
+    ORANGE 'o'
+    VIOLET 'v'
+    YELLOW 'y'
+    - char nickname,
+    + {static} String printAllColors(),
+    + {static} boolean contains(String cadena),
+    + {static} HashMap<Character, Colors> getMap()
+}
+
+enum Peg {
+    WHITE,
+    BLACK,
+}
+
+MasterMind --> Game
+MasterMind ..> Console
+Game *--> SecretCombination
+Game *--> "ATTEMPTS_NUMBER" Result
+Game ..> Console
+Result *--> Combination
+Result ..> Peg
+Combination <|-- SecretCombination
+Combination <|-- ProposedCombination
+Combination *--> "COMBINATION_NUMBER" Colors
+
+@enduml
